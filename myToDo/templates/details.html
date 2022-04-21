@@ -1,0 +1,51 @@
+{% extends 'base.html' %} {% block content %}
+
+<form action={%url 'task' task.id %} method="post">
+
+  {% csrf_token %}
+  <div class="container">
+
+    <input type="text" name="content" value="{{task}}" />
+
+    <input type="submit" value="Save" name="update" />
+
+    <input type="submit" value="Delete" name="delete" />
+
+    {% if not task.complete %}
+      <input type="submit" value="Mark Complete" name="complete" />
+    {% else %}
+      <input type="submit" value="Unmark Complete" name="uncomplete" />
+    {% endif %}
+
+  </div>
+</form>
+
+<form action={%url 'task' task.id %} method="post">
+
+  {% csrf_token %}
+  <div class="container">
+
+    <textarea name="note" rows="4" cols="50" placeholder="Note for this task..."></textarea>
+
+  </div>
+
+  <div class="container">
+    <input type="submit" value="Submit" name="note" />
+  </div>
+
+</form>
+
+{%for note in notes %}
+
+<div class="note">
+  <form action={%url 'task' task.id %} method="post">
+  {% csrf_token %}
+    <input type="submit" class="note-delete" value="✖" />
+  </form>
+  <p class="note-text">{{note}}</p>
+  <p class="note-date">{{note.date_created}}</p>
+</div>
+
+{% endfor %}
+
+{% endblock %}
